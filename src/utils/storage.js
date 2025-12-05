@@ -10,9 +10,9 @@ function getDefaultConfig() {
     secret: "",
     birthdate: "10/10/2020",
     environments: {
-      SIT: "https://cdc-portal-negociacao-cobranca-ngx-sit.PORTAL.com.br/#/",
-      HLG: "https://cdc-portal-negociacao-cobranca-ngx-hlg.PORTAL.com.br/#/",
-      PRD: "https://cdc-portal-negociacao-cobranca-ngx.PORTAL.com.br/#/"
+      SIT: "https://PATH.PORTAL.com.br/#/",
+      HLG: "https://PATH.PORTAL.com.br/#/",
+      PRD: "https://PATH.PORTAL.com.br/#/"
     },
     jwtExpiration: 300,
     lastCPF: "",
