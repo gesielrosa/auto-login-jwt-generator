@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurações - Auto Login</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>⚙️ Configurações</h1>
+      <p class="subtitle">Configure os parâmetros do gerador de login automático</p>
+    </div>
+
+    <form id="configForm">
+      <div class="section">
+        <h2>Autenticação JWT</h2>
+        
+        <div class="form-group">
+          <label for="secret">Chave Secreta (Secret Key)</label>
+          <input type="password" id="secret" class="form-input">
+          <span class="help-text">Chave usada para assinar o token JWT (HS256). Obrigatória para gerar URLs.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="birthdate">Data de Nascimento Padrão</label>
+          <input type="text" id="birthdate" class="form-input" placeholder="DD/MM/AAAA" required>
+          <span class="help-text">Formato: DD/MM/AAAA (ex: 10/10/2020)</span>
+        </div>
+
+        <div class="form-group">
+          <label for="jwtExpiration">Tempo de Expiração do JWT (segundos)</label>
+          <input type="number" id="jwtExpiration" class="form-input" min="60" max="3600" required>
+          <span class="help-text">Entre 60 (1 min) e 3600 (1 hora)</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>URLs dos Ambientes</h2>
+        
+        <div class="form-group">
+          <label for="urlSIT">🔧 SIT (Sistema Integrado de Testes)</label>
+          <input type="url" id="urlSIT" class="form-input" placeholder="https://..." required>
+        </div>
+
+        <div class="form-group">
+          <label for="urlHLG">⚙️ HLG (Homologação)</label>
+          <input type="url" id="urlHLG" class="form-input" placeholder="https://..." required>
+        </div>
+
+        <div class="form-group">
+          <label for="urlPRD">☢️ PRD (Produção)</label>
+          <input type="url" id="urlPRD" class="form-input" placeholder="https://..." required>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">💾 Salvar Configurações</button>
+        <button type="button" id="resetBtn" class="btn btn-secondary">🔄 Restaurar Padrões</button>
+      </div>
+    </form>
+
+    <div id="message" class="message"></div>
+
+    <div class="footer">
+      <p>Extensão Auto Login JWT Generator v1.3.0</p>
+    </div>
+  </div>
+
+  <script src="../lib/jsrsasign-all-min.js"></script>
+  <script src="../utils/storage.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

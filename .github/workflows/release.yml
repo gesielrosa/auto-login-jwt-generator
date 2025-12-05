@@ -1,0 +1,50 @@
+name: Release Extension
+
+on:
+  release:
+    types: [created]
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Get version from manifest
+        id: get_version
+        run: |
+          VERSION=$(jq -r '.version' src/manifest.json)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extension version: $VERSION"
+      
+      - name: Install zip
+        run: sudo apt-get update && sudo apt-get install -y zip
+      
+      - name: Create ZIP package
+        run: |
+          cd src
+          zip -r ../auto-login-chrome-ext-v${{ steps.get_version.outputs.version }}.zip . \
+            -x "*.crx" -x "*.pem" -x ".DS_Store" -x "__MACOSX/*"
+          cd ..
+          echo "Package created: auto-login-chrome-ext-v${{ steps.get_version.outputs.version }}.zip"
+          ls -lh *.zip
+      
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: auto-login-chrome-ext-v${{ steps.get_version.outputs.version }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Summary
+        run: |
+          echo "## Release Summary :rocket:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version:** v${{ steps.get_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Package:** auto-login-chrome-ext-v${{ steps.get_version.outputs.version }}.zip" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status:** ✅ Successfully uploaded to release" >> $GITHUB_STEP_SUMMARY
